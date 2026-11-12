@@ -1,6 +1,19 @@
-# Beacon 01 · Harbor Learning
+# Beacon Cross-Current Trial
 
-A Unity simulation and film series following a survey catamaran learning to navigate a harbor. Episode 01, **AI Learns to Drive a Boat**, follows Beacon through a six-metre buoy gate in a lateral current.
+[Boat Lab](https://www.youtube.com/@BoatLabStudio) · Motion Trials, Episode 01
+
+Beacon has to steer through a six-metre buoy gate while a cross-current pushes the boat sideways. This repository contains the Unity simulation, the NumPy PPO trainer, and the recorded attempts behind **Can an AI Boat Beat the Current?**
+
+## The same start, two outcomes
+
+| After 444 training runs | Final model |
+| --- | --- |
+| ![Beacon drifts into the red buoy during a mid-training test](Film/media/mid-training-buoy-strike.gif) | ![Beacon passes cleanly between the buoys in the final test](Film/media/final-clean-pass.gif) |
+| Beacon reaches the gate but hits the red buoy. | The boat corrects earlier and crosses the finish line in **8.80 seconds**. |
+
+Both clips show test start 02. The initial pose, gate and current match. Each checkpoint steers its own run from that starting state.
+
+## What Beacon learns
 
 | Episode 01 milestone | Completed training episodes | Fixed evaluation |
 | --- | ---: | ---: |
@@ -10,7 +23,27 @@ A Unity simulation and film series following a survey catamaran learning to navi
 | First recorded checkpoint with a perfect score | 1,278 | 48 / 48 |
 | Final checkpoint | 3,320 | 48 / 48 |
 
-The film shows the 169 recorded routes before the first successful training crossing, the entire first success, a missed gate, and a matched comparison of a buoy strike and a clean pass. The featured crossing takes 8.80 seconds. The bow camera is a replay view. The actor receives 13 numeric observations from the simulator and outputs two commands through one 48-unit tanh layer. The inset graphs show the largest signed contributions to the steering command, recalculated from each checkpoint and the recorded observations. The path scores use a zero-input baseline and integrate the tanh response between the baseline and the recorded input.
+The 48 evaluation starts are held out from training and reused at each checkpoint. The film shows the first 169 training routes and the first clean training crossing. Training-run numbers count completed attempts across all 24 parallel simulators.
+
+## Inside the neural network
+
+![The episode’s actor diagram shows 13 inputs, 48 hidden units, and throttle and rudder outputs](Film/media/beacon-neural-network.jpg)
+
+The actor takes **13 numbers** from the simulator, processes them through **48 tanh units**, and outputs **throttle and rudder**. The bow camera shows the replay for viewers.
+
+| Inputs | What they represent |
+| --- | --- |
+| 4 gate offsets | Relative position in world coordinates and in the boat’s frame |
+| 2 heading inputs | Sine and cosine of the boat’s heading |
+| 2 motion inputs | Boat speed and yaw rate |
+| 2 current inputs | Lateral and longitudinal current |
+| 3 course inputs | Gate width, lateral position in the basin, and docking flag |
+
+The value network estimates returns for PPO during training. The actor controls the boat during evaluation. The simulator limits the applied controls to the range `[-1, 1]`.
+
+![Final model’s steering card, with the strongest input-to-rudder paths and the applied command](Film/media/final-rudder-card.jpg)
+
+The card ranks paths by the magnitude of their contribution to the raw rudder output relative to zero input. It shows the sign of each of the three leading contributions. The applied command also reflects the other paths, the network bias, and clipping. For the identical starting observation in test start 02, the intermediate model's raw rudder was approximately **+0.021**. The final model produced **−0.311**. The [path calculation](Film/network.py), [weights and replay data](Film/episode-01/) are included.
 
 ## Run the pilot
 
