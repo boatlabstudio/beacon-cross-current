@@ -1,0 +1,35 @@
+AI Learns to Drive a Boat | Beacon Episode 01
+
+Beacon has one job: get through a six-metre buoy gate while the current pushes sideways. The first 169 training runs go wrong in different ways. On run 170, something clicks. The video shows the attempts, the changing signals inside the network, and the full crossing from the bow.
+
+GitHub (Unity project, PPO training code, checkpoints, and replay data): [REPOSITORY URL]
+
+First clean training crossing: attempt 170.
+First recorded checkpoint with 48/48 fixed tests: after 1,278 completed training episodes.
+Final checkpoint: 48/48, with the featured crossing taking 8.80 seconds.
+
+00:00 Left buoy
+00:17 Meet Beacon
+00:32 The first launch
+01:04 Missed the gate
+01:25 From the bow
+01:39 Inside the neural network
+01:53 Training at 400×
+02:12 Run 170
+02:44 The 48 test starts
+03:08 Why the boat hit the buoy
+03:30 How the final model steers
+03:42 The full final crossing
+03:53 The same crossing from the bow
+04:13 Current in the other direction
+04:50 Reproduce the experiment
+
+Beacon is a simulated survey catamaran. The policy receives numeric observations from the environment. The bow camera shows the replay for viewers.
+
+Music
+'Special Ops' by Scott Buckley - released under CC-BY 4.0. www.scottbuckley.com.au
+https://www.scottbuckley.com.au/library/special-ops/
+'Tomorrow' by Scott Buckley - released under CC-BY 4.0. www.scottbuckley.com.au
+https://www.scottbuckley.com.au/library/tomorrow/
+License: https://creativecommons.org/licenses/by/4.0/
+Both tracks were edited and mixed to picture. The montage uses a tempo adjustment. Water, motor and impact effects were synthesized for this episode.
