@@ -4,7 +4,7 @@ namespace HarborLearning
 {
     public sealed class HarborOverlay : MonoBehaviour
     {
-        public static readonly string[] MissionNames = { "Buoy gate", "Cross-current", "Buoy slalom", "Precision docking" };
+        public static readonly string[] MissionNames = { "Buoy gate", "Cross-current", "Buoy slalom", "Precision docking", "Harbor approach" };
         private static readonly Color Panel = new Color(.028f, .070f, .080f, .93f);
         private static readonly Color Soft = new Color(.66f, .79f, .79f);
         private HarborDirector director;
@@ -60,7 +60,7 @@ namespace HarborLearning
             string status = director.ReelComplete ? "Replay complete" : director.Paused ? "Paused" :
                 director.Result switch
                 {
-                    Outcome.Passed => director.Mission == Mission.Dock ? "Docked" : "Clean pass",
+                    Outcome.Passed => director.Mission is Mission.Dock or Mission.Harbor ? "Docked" : "Clean pass",
                     Outcome.Collision => "Collision",
                     Outcome.MissedGate => "Missed gate",
                     Outcome.Timeout => "Time ran out",

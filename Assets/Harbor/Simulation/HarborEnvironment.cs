@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HarborLearning
 {
-    public enum Mission { Gate, Current, Slalom, Dock }
+    public enum Mission { Gate, Current, Slalom, Dock, Harbor }
     public enum Outcome { Running, Passed, Collision, MissedGate, Timeout }
 
     public readonly struct Gate
@@ -26,6 +26,12 @@ namespace HarborLearning
         public readonly Gate[] Gates;
         public readonly Buoy[] Buoys;
         public readonly float FinishZ;
+        public bool RequiresDocking => Mission is Mission.Dock or Mission.Harbor;
+
+        public const float DockX = 3.8f;
+        public const float DockZ = 33.3f;
+        public const float DockHalfWidth = .685f;
+        public const float DockHalfLength = 4.65f;
 
         public Course(Mission mission)
         {
@@ -36,16 +42,17 @@ namespace HarborLearning
                 Mission.Current => new[] { new Gate(0, 20, 6.0f) },
                 Mission.Slalom => new[] { new Gate(-4, 10, 6.2f), new Gate(3.6f, 22, 6.2f), new Gate(-2, 34, 6.2f) },
                 Mission.Dock => new[] { new Gate(0, 19, 7.0f) },
+                Mission.Harbor => new[] { new Gate(-2.7f, 8.8f, 6.4f), new Gate(2.5f, 18, 6.4f), new Gate(0, 26.1f, 6.0f) },
                 _ => throw new ArgumentOutOfRangeException(nameof(mission))
             };
-            FinishZ = mission == Mission.Dock ? 34 : Gates[Gates.Length - 1].Z;
+            FinishZ = RequiresDocking ? 34 : Gates[Gates.Length - 1].Z;
             var buoys = new List<Buoy>();
             foreach (Gate gate in Gates)
             {
                 buoys.Add(new Buoy(gate.X - gate.Width / 2, gate.Z, .48f, true));
                 buoys.Add(new Buoy(gate.X + gate.Width / 2, gate.Z, .48f, false));
             }
-            if (mission == Mission.Dock)
+            if (RequiresDocking)
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -79,7 +86,7 @@ namespace HarborLearning
         public int GateIndex { get; private set; }
         public Outcome Result { get; private set; }
         public float GroundSpeed => Distance(MathF.Sin(Yaw) * Speed + CurrentX, MathF.Cos(Yaw) * Speed + CurrentZ);
-        public bool Docking => GateIndex == Course.Gates.Length && Course.Mission == Mission.Dock;
+        public bool Docking => GateIndex == Course.Gates.Length && Course.RequiresDocking;
         public Gate Target => Docking ? new Gate(0, Course.FinishZ, 2.9f) :
             Course.Gates[Math.Min(GateIndex, Course.Gates.Length - 1)];
 
@@ -114,6 +121,7 @@ namespace HarborLearning
                 Mission.Current => (.5f + .45f * Uniform(ref state)) * (seed % 2 == 0 ? 1 : -1),
                 Mission.Slalom => (Uniform(ref state) * 2 - 1) * .22f,
                 Mission.Dock => (Uniform(ref state) * 2 - 1) * .12f,
+                Mission.Harbor => (Uniform(ref state) * 2 - 1) * .27f,
                 _ => 0
             };
             CurrentZ = Course.Mission == Mission.Current ? (Uniform(ref state) * 2 - 1) * .12f : 0;
@@ -136,6 +144,8 @@ namespace HarborLearning
             float reward = .10f * (oldDistance - distance) - .0015f;
             if (MathF.Abs(X) > HalfWidth - HullRadius || Z < NearZ + HullRadius || Z > FarZ - HullRadius)
                 return Finish(Outcome.Collision, reward - 1.2f);
+            if (Course.Mission == Mission.Harbor && TouchesDock())
+                return Finish(Outcome.Collision, reward - 1.2f);
             foreach (Buoy buoy in Course.Buoys)
             {
                 if (TouchesBuoy(startX, startZ, buoy))
@@ -148,12 +158,19 @@ namespace HarborLearning
                 if (MathF.Abs(crossingX - target.X) > target.Width / 2 - HullRadius - .48f)
                     return Finish(Outcome.MissedGate, reward - .85f);
                 GateIndex++;
-                if (GateIndex == Course.Gates.Length && Course.Mission != Mission.Dock)
+                if (GateIndex == Course.Gates.Length && !Course.RequiresDocking)
                     return Finish(Outcome.Passed, reward + 2f);
                 reward += .55f;
             }
             else if (Docking)
             {
+                if (Course.Mission == Mission.Harbor)
+                {
+                    float approachSpeed = .22f + MathF.Sqrt(.82f * distance);
+                    reward -= .026f * MathF.Max(0, GroundSpeed - approachSpeed);
+                    if (distance < 3.4f)
+                        reward -= .012f * MathF.Abs(Yaw);
+                }
                 bool inBerth = MathF.Abs(X) < 1.35f && MathF.Abs(Z - Course.FinishZ) < 1.55f;
                 bool aligned = MathF.Abs(Yaw) < .28f;
                 bool stopped = GroundSpeed < .38f && MathF.Abs(TurnRate) < .25f;
@@ -162,7 +179,7 @@ namespace HarborLearning
                     return Finish(Outcome.Passed, reward + 2f);
             }
 
-            int limit = Course.Mission == Mission.Slalom || Course.Mission == Mission.Dock ? 980 : 640;
+            int limit = Course.Mission == Mission.Slalom || Course.RequiresDocking ? 980 : 640;
             return Tick >= limit ? Finish(Outcome.Timeout, reward - .35f) : reward;
         }
 
@@ -225,6 +242,13 @@ namespace HarborLearning
             float oz = buoy.Z - (startZ + progress * dz);
             float radius = buoy.Radius + HullRadius;
             return ox * ox + oz * oz <= radius * radius;
+        }
+
+        private bool TouchesDock()
+        {
+            float dx = MathF.Max(0, MathF.Abs(MathF.Abs(X) - Course.DockX) - Course.DockHalfWidth);
+            float dz = MathF.Max(0, MathF.Abs(Z - Course.DockZ) - Course.DockHalfLength);
+            return dx * dx + dz * dz <= HullRadius * HullRadius;
         }
 
         private static float Uniform(ref uint state)

@@ -1,0 +1,151 @@
+1
+00:00:00,220 --> 00:00:02,802
+Beacon. Freine.
+
+2
+00:00:07,238 --> 00:00:12,708
+Trois portes entre les bouées. Un emplacement pour s’arrêter.
+
+3
+00:00:13,808 --> 00:00:19,358
+Franchis les portes dans l’ordre.
+
+4
+00:00:20,338 --> 00:00:25,708
+Immobilise-toi dans le cadre, face à l’avant,
+sous 0,38 mètre par seconde.
+
+5
+00:00:29,978 --> 00:00:35,358
+Un début prometteur, si le port était derrière lui.
+
+6
+00:00:36,678 --> 00:00:43,227
+Première porte franchie. La deuxième pardonne moins.
+
+7
+00:00:44,175 --> 00:00:49,375
+La marque rouge indique où l’essai s’est arrêté.
+
+8
+00:00:50,095 --> 00:00:56,818
+Encore un virage. Il le prend un peu tard.
+
+9
+00:00:57,678 --> 00:01:05,302
+Toutes les portes sont franchies. Trop à gauche
+ou à droite, et il touchera le ponton.
+
+10
+00:01:06,358 --> 00:01:11,858
+Depuis la proue, le passage semble presque assez large.
+
+11
+00:01:12,858 --> 00:01:17,438
+Il avance plus loin, mais perd l’axe.
+
+12
+00:01:20,508 --> 00:01:25,408
+On entraîne 24 bateaux en parallèle.
+Chacun essaie ses propres commandes.
+
+13
+00:01:26,108 --> 00:01:30,808
+Chaque tracé correspond à un essai terminé.
+On accélère leur durée cumulée 400 fois.
+
+14
+00:01:34,458 --> 00:01:39,408
+Les trajectoires commencent à atteindre l’autre côté.
+
+15
+00:01:48,558 --> 00:01:53,408
+Beaucoup franchissent les portes.
+Il reste à arrêter le bateau.
+
+16
+00:01:58,500 --> 00:02:02,550
+Celui-ci dépasse la place et continue.
+
+17
+00:02:28,967 --> 00:02:33,267
+Le cadre est presque derrière lui.
+
+18
+00:02:36,533 --> 00:02:41,233
+J’ai gardé les mêmes 48 départs pour les tests.
+Voici l’un d’eux avant l’entraînement.
+
+19
+00:02:41,843 --> 00:02:46,133
+Les gaz bougent à peine. Le courant fait le reste.
+
+20
+00:02:47,157 --> 00:02:52,217
+Même départ, même courant. Regarde le premier virage.
+
+21
+00:02:53,917 --> 00:02:58,217
+Les contributions les plus fortes s’allument.
+Le turquoise augmente, l’ambre diminue.
+
+22
+00:02:58,900 --> 00:03:02,200
+Nous, on voit depuis la proue.
+
+23
+00:03:02,400 --> 00:03:06,000
+Beacon reçoit 13 nombres, dont la position
+de la prochaine porte et sa vitesse.
+
+24
+00:03:06,830 --> 00:03:11,480
+Une fois les portes franchies, la cible devient la place.
+
+25
+00:03:14,370 --> 00:03:18,950
+Le sillage rétrécit quand il réduit les gaz.
+
+26
+00:03:21,180 --> 00:03:26,450
+Le courant le pousse vers la gauche sur cet essai.
+
+27
+00:03:28,680 --> 00:03:33,750
+Nouveau point de départ. Courant dans l’autre sens.
+
+28
+00:03:36,780 --> 00:03:41,150
+Aligne-toi. Maintenant, laisse la vitesse baisser.
+
+29
+00:03:42,420 --> 00:03:48,200
+Deux départs, deux trajectoires vers la même place.
+
+30
+00:03:50,000 --> 00:03:55,070
+La dernière porte se franchit encore à pleine allure.
+Pour accoster, il faut changer d’approche.
+
+31
+00:03:55,890 --> 00:04:01,450
+Réduis les gaz assez tôt pour t’aligner
+avant que la proue atteigne le cadre.
+
+32
+00:04:02,770 --> 00:04:08,170
+Position, cap et vitesse doivent rester valides
+pendant une demi-seconde.
+
+33
+00:04:34,683 --> 00:04:38,883
+Le modèle final réussit les 48 départs de test.
+
+34
+00:04:40,833 --> 00:04:45,133
+Premier accostage au 604e essai.
+Pour y arriver à chaque fois, il a fallu plus de temps.
+
+35
+00:04:48,033 --> 00:04:52,283
+Bien garé, Beacon.

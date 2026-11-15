@@ -1,0 +1,150 @@
+1
+00:00:00,220 --> 00:00:02,802
+Beacon. Fren yap.
+
+2
+00:00:07,238 --> 00:00:12,708
+Üç duba kapısı. Bir durma noktası.
+
+3
+00:00:13,808 --> 00:00:19,358
+Her kapıdan sırayla geç.
+
+4
+00:00:20,338 --> 00:00:25,708
+Tekneyi kutunun içinde, ileri bakacak şekilde
+saniyede 0,38 metrenin altında tut.
+
+5
+00:00:29,978 --> 00:00:35,358
+Liman arkada olsaydı bu iyi bir başlangıçtı.
+
+6
+00:00:36,678 --> 00:00:43,227
+Birinci kapı tamam. İkincisi hata kaldırmıyor.
+
+7
+00:00:44,175 --> 00:00:49,375
+Kırmızı işaret denemenin bittiği yer.
+
+8
+00:00:50,095 --> 00:00:56,818
+Bir dönüş daha. Biraz geç başladı.
+
+9
+00:00:57,678 --> 00:01:05,302
+Bütün kapılar tamam. Biraz fazla sağa ya da sola
+kayarsa iskeleye çarpar.
+
+10
+00:01:06,358 --> 00:01:11,858
+Pruvadan bakınca aralık neredeyse yeterli görünüyor.
+
+11
+00:01:12,858 --> 00:01:17,438
+Daha içeri giriyor ama ortada kalamıyor.
+
+12
+00:01:20,508 --> 00:01:25,408
+Eğitimde 24 tekne aynı anda çalışıyor.
+Her biri kendi komutlarını deniyor.
+
+13
+00:01:26,108 --> 00:01:30,808
+Her çizgi tamamlanmış bir eğitim denemesi.
+Denemelerin toplam süresini 400 kat hızlandırdık.
+
+14
+00:01:34,458 --> 00:01:39,408
+Rotalar karşı kıyıya kadar uzamaya başladı.
+
+15
+00:01:48,558 --> 00:01:53,408
+Birçok deneme kapıları geçiyor.
+Teknenin bir de durması gerekiyor.
+
+16
+00:01:58,500 --> 00:02:02,550
+Bu denemede yanaşma alanını geçip devam etti.
+
+17
+00:02:28,967 --> 00:02:33,267
+Kutu neredeyse arkasında kaldı.
+
+18
+00:02:36,533 --> 00:02:41,233
+Test için aynı 48 başlangıç koşulunu ayırdım.
+Bu, eğitim öncesindeki hâli.
+
+19
+00:02:41,843 --> 00:02:46,133
+Gaz komutu neredeyse sıfır. Akıntı gerisini yapıyor.
+
+20
+00:02:47,157 --> 00:02:52,217
+Aynı başlangıç. Aynı akıntı. İlk dönüşe bak.
+
+21
+00:02:53,917 --> 00:02:58,217
+En güçlü katkılar yanıyor.
+Yeşil artırıyor, kehribar azaltıyor.
+
+22
+00:02:58,900 --> 00:03:02,200
+Pruvadan gördüğümüz manzara bu.
+
+23
+00:03:02,400 --> 00:03:06,000
+Beacon 13 sayı alıyor.
+Sonraki kapının yeri ve teknenin hızı bunlardan ikisi.
+
+24
+00:03:06,830 --> 00:03:11,480
+Kapılar geçilince hedef yanaşma alanı oluyor.
+
+25
+00:03:14,370 --> 00:03:18,950
+Gazı kısınca tekne izinin nasıl küçüldüğüne bak.
+
+26
+00:03:21,180 --> 00:03:26,450
+Bu koşuda akıntı sola itiyor.
+
+27
+00:03:28,680 --> 00:03:33,750
+Başlangıç yeri değişti. Akıntı bu kez ters yönde.
+
+28
+00:03:36,780 --> 00:03:41,150
+Hizalan. Şimdi hızın düşmesini bekle.
+
+29
+00:03:42,420 --> 00:03:48,200
+İki başlangıç, aynı iskeleye giden iki farklı rota.
+
+30
+00:03:50,000 --> 00:03:55,070
+Son kapıdan hâlâ hızlı geçiyor.
+İskelede bu hız işe yaramaz.
+
+31
+00:03:55,890 --> 00:04:01,450
+Gazı erken kes ki pruva kutuya varmadan hizalanabilesin.
+
+32
+00:04:02,770 --> 00:04:08,170
+Konum, baş açısı ve hız koşulları
+yarım saniye boyunca sağlanmalı.
+
+33
+00:04:34,683 --> 00:04:38,883
+Son model 48 testin hepsinde temiz yanaştı.
+
+34
+00:04:40,833 --> 00:04:45,133
+İlk yanaşma 604. denemede geldi.
+Bunu güvenilir biçimde yapmak biraz daha sürdü.
+
+35
+00:04:48,033 --> 00:04:52,283
+İyi park ettin, Beacon.

@@ -1,0 +1,150 @@
+1
+00:00:00,220 --> 00:00:02,802
+Beacon. Brake.
+
+2
+00:00:07,238 --> 00:00:12,708
+Three buoy gates. One place to stop.
+
+3
+00:00:13,808 --> 00:00:19,358
+Go through every gate in order.
+
+4
+00:00:20,338 --> 00:00:25,708
+Finish inside the box, facing forward,
+below 0.38 metres per second.
+
+5
+00:00:29,978 --> 00:00:35,358
+A promising start, if the harbor is behind him.
+
+6
+00:00:36,678 --> 00:00:43,227
+Gate one is clear. Gate two is less forgiving.
+
+7
+00:00:44,175 --> 00:00:49,375
+The red mark is where the run ended.
+
+8
+00:00:50,095 --> 00:00:56,818
+One more turn. He starts it a little late.
+
+9
+00:00:57,678 --> 00:01:05,302
+All the gates. Still too far left or right,
+and the berth will catch him.
+
+10
+00:01:06,358 --> 00:01:11,858
+From the bow, this looks almost wide enough.
+
+11
+00:01:12,858 --> 00:01:17,438
+He gets farther in, but can't hold the centreline.
+
+12
+00:01:20,508 --> 00:01:25,408
+The trainer runs 24 boats in parallel.
+Each one tries its own controls.
+
+13
+00:01:26,108 --> 00:01:30,808
+Each path is a completed training run.
+We're playing their combined time at 400×.
+
+14
+00:01:34,458 --> 00:01:39,408
+The routes start reaching the far side.
+
+15
+00:01:48,558 --> 00:01:53,408
+Plenty of runs clear the gates.
+The boat still has to stop.
+
+16
+00:01:58,500 --> 00:02:02,550
+That one missed the berth and kept going.
+
+17
+00:02:28,967 --> 00:02:33,267
+The box is almost behind him.
+
+18
+00:02:36,533 --> 00:02:41,233
+For testing, I saved the same 48 starts.
+Here's one before any training.
+
+19
+00:02:41,843 --> 00:02:46,133
+The throttle barely moves. The current does the rest.
+
+20
+00:02:47,157 --> 00:02:52,217
+Same start. Same current. Now look at that first turn.
+
+21
+00:02:53,917 --> 00:02:58,217
+The strongest paths light up. Teal adds. Amber subtracts.
+
+22
+00:02:58,900 --> 00:03:02,200
+We get the view from the bow.
+
+23
+00:03:02,400 --> 00:03:06,000
+Beacon gets 13 numbers, including
+where the next gate is and how fast he's moving.
+
+24
+00:03:06,830 --> 00:03:11,480
+Once the gates are clear, the target changes to the berth.
+
+25
+00:03:14,370 --> 00:03:18,950
+Watch the wake shrink as he eases off.
+
+26
+00:03:21,180 --> 00:03:26,450
+The current is pushing left on this run.
+
+27
+00:03:28,680 --> 00:03:33,750
+New starting position. Current the other way.
+
+28
+00:03:36,780 --> 00:03:41,150
+Straighten up. Now let the speed come down.
+
+29
+00:03:42,420 --> 00:03:48,200
+Two starts, two different lines into the same berth.
+
+30
+00:03:50,000 --> 00:03:55,070
+The final gate is still a speed run.
+The berth is where that approach stops working.
+
+31
+00:03:55,890 --> 00:04:01,450
+Ease off early enough to straighten up
+before the bow reaches the box.
+
+32
+00:04:02,770 --> 00:04:08,170
+Position, heading, and speed must all hold
+for half a second.
+
+33
+00:04:34,683 --> 00:04:38,883
+At the final checkpoint, all 48 starts get in cleanly.
+
+34
+00:04:40,833 --> 00:04:45,133
+The first docking took 604 attempts.
+Doing it reliably took a little longer.
+
+35
+00:04:48,033 --> 00:04:52,283
+Good parking, Beacon.

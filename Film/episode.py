@@ -117,7 +117,7 @@ class Edit:
             self.label(75, 832, f"Throttle {throttle:+.2f}    Rudder {rudder:+.2f}",
                        color=INK, size=21, start=start, end=end, fade=0)
 
-    def save(self, directory, width, height):
+    def save(self, directory, width, height, *, mission=None, subtitle_name="Beacon-01.en.srt"):
         header = """[Script Info]
 ScriptType: v4.00+
 PlayResX: 1920
@@ -137,8 +137,11 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         (directory / "episode.ass").write_text(header + "\n".join(self.ass) + "\n", encoding="utf-8")
         srt = "\n".join(f"{i}\n{srt_time(a)} --> {srt_time(b)}\n{line}\n"
                         for i, (a, b, line) in enumerate(self.subtitles, 1))
-        (directory / "Beacon-01.en.srt").write_text(srt, encoding="utf-8")
-        write_json(directory / "shots.json", dict(width=width, height=height, fps=FPS, shots=self.shots))
+        (directory / subtitle_name).write_text(srt, encoding="utf-8")
+        film = dict(width=width, height=height, fps=FPS, shots=self.shots)
+        if mission:
+            film["mission"] = mission
+        write_json(directory / "shots.json", film)
         write_json(directory / "sound.json", dict(duration=self.clock, cues=self.sound))
 
 

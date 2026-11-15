@@ -37,11 +37,12 @@ namespace HarborLearning
     public struct HarborFrame
     {
         public int tick;
+        public int gateIndex;
         public float x, z, yaw, speed;
 
         public static HarborFrame From(HarborEnvironment env) => new HarborFrame
         {
-            tick = env.Tick, x = env.X, z = env.Z, yaw = env.Yaw, speed = env.GroundSpeed
+            tick = env.Tick, x = env.X, z = env.Z, yaw = env.Yaw, speed = env.GroundSpeed, gateIndex = env.GateIndex
         };
 
         public static HarborFrame Between(HarborFrame a, HarborFrame b, float tick)
@@ -53,7 +54,8 @@ namespace HarborLearning
                 x = Mathf.Lerp(a.x, b.x, t),
                 z = Mathf.Lerp(a.z, b.z, t),
                 yaw = a.yaw + HarborEnvironment.Wrap(b.yaw - a.yaw) * t,
-                speed = Mathf.Lerp(a.speed, b.speed, t)
+                speed = Mathf.Lerp(a.speed, b.speed, t),
+                gateIndex = tick >= b.tick ? b.gateIndex : a.gateIndex
             };
         }
 

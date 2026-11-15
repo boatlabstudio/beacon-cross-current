@@ -200,6 +200,31 @@ def licensed_arrangement(mix, folder, starts, events, passes):
         mix[a:b] *= (1 - depth * duck)[:, None]
 
 
+def place_harbor_cues(mix, folder, sections):
+    tracks = {}
+    for cue in sections:
+        name = cue["track"]
+        path = folder / (name + ".mp3")
+        start = round(cue["start"] * RATE)
+        end = round(cue["end"] * RATE)
+        length = end - start
+        offset = round(cue["source"] * RATE)
+        if cue["tempo"]:
+            source = cue["source"]
+            excerpt = read_music(path, f"atrim=start={source}:end={source + length / RATE * 1.3},asetpts=PTS-STARTPTS,"
+                                 "asendcmd=c='8 atempo tempo 1.08;17 atempo tempo 1.16;24 atempo tempo 1.24',atempo=1.00")[:length]
+        else:
+            if name not in tracks:
+                tracks[name] = read_music(path)
+            excerpt = tracks[name][offset:offset + length]
+        if len(excerpt) != length:
+            raise ValueError(f"Cue extends beyond {path.name}")
+        t = np.arange(length, dtype=np.float32) / RATE
+        envelope = np.minimum(np.clip(t / cue["fade_in"], 0, 1),
+                              np.clip((length / RATE - t) / cue["fade_out"], 0, 1))
+        mix[start:end] += excerpt * (envelope * cue["gain"])[:, None]
+
+
 def compose(directory, music_dir=None, output=None):
     sound = json.loads((directory / "sound.json").read_text(encoding="utf-8"))
     shots = json.loads((directory / "shots.json").read_text(encoding="utf-8"))["shots"]
@@ -213,7 +238,11 @@ def compose(directory, music_dir=None, output=None):
         starts[shot["name"]] = at
         at += shot["length"]
     passes = [cue["time"] for cue in sound["cues"] if cue["kind"] == "pass"]
-    if music_dir is None:
+    if "music" in sound:
+        if music_dir is None:
+            raise ValueError("The harbor edit requires --music-dir for the credited score.")
+        place_harbor_cues(mix, music_dir, sound["music"])
+    elif music_dir is None:
         arrangement(mix, starts, events, passes, total, rng)
     else:
         licensed_arrangement(mix, music_dir, starts, events, passes)
@@ -242,7 +271,7 @@ def compose(directory, music_dir=None, output=None):
 
     for cue in sound["cues"]:
         at, kind = cue["time"], cue["kind"]
-        if music_dir is not None and kind not in ("impact", "miss"):
+        if music_dir is not None and "music" not in sound and kind not in ("impact", "miss"):
             continue
         if kind == "impact":
             t = seconds(.48)

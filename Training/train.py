@@ -16,7 +16,7 @@ from ppo import Policy, gae
 
 
 ROOT = Path(__file__).resolve().parent.parent
-MISSIONS = ("gate", "current", "slalom", "dock")
+MISSIONS = ("gate", "current", "slalom", "dock", "harbor")
 OUTCOMES = {1: "pass", 2: "collision", 3: "miss", 4: "timeout"}
 # These seeds are outside the training seed range. Every checkpoint sees the same tests.
 TEST_SEEDS = np.arange(2_000_000_100, 2_000_000_148, dtype=np.int64)
@@ -70,10 +70,11 @@ def evaluate(policy, mission, host, steps, phase, record_signals=False):
 class TrainingTrace:
     """Record completed episodes in simulation step order, with environment index as the tie-break."""
 
-    def __init__(self, initial, seeds):
+    def __init__(self, initial, seeds, recorded_attempts):
         self.episodes = []
         self.attempts = []
         self.first_pass = None
+        self.recorded_attempts = recorded_attempts
         self.step = 0
         self.active = [
             dict(seed=int(seed), currentX=current[0], currentZ=current[1], frames=[pose])
@@ -97,7 +98,7 @@ class TrainingTrace:
             self.episodes.append(dict(id=number, outcome=outcome, environment=i,
                                       ticks=episode["frames"][-1]["tick"], steps=episode["trainingSteps"]))
             is_first_pass = outcome == 1 and self.first_pass is None
-            if number <= 240 or is_first_pass:
+            if number <= self.recorded_attempts or is_first_pass:
                 self.attempts.append(episode)
             if is_first_pass:
                 self.first_pass = number
@@ -176,7 +177,7 @@ def train(args):
         initial = env.request("reset", initial_seeds)
         obs = initial["observations"]
         if args.trace is not None:
-            trace = TrainingTrace(initial, initial_seeds)
+            trace = TrainingTrace(initial, initial_seeds, args.trace_attempts)
         policy = Policy(obs.shape[1], rng)
         checkpoint(0)
         recent = Counter()
@@ -215,9 +216,12 @@ def main():
     parser.add_argument("--output", type=Path, default=ROOT / "Training/runs")
     parser.add_argument("--replay", type=Path, help="Write a JSON replay under Assets/Harbor/Resources/Replays.")
     parser.add_argument("--trace", type=Path, help="Record training episode counts and early trajectories.")
+    parser.add_argument("--trace-attempts", type=int, default=240, help="Number of early trajectories to retain with --trace.")
     args = parser.parse_args()
     if args.steps < 1 or not 1 <= args.envs <= 256 or args.horizon < 2:
         parser.error("Use positive steps, 1–256 environments and a horizon of at least 2.")
+    if args.trace_attempts < 0:
+        parser.error("--trace-attempts must be nonnegative.")
     train(args)
 
 

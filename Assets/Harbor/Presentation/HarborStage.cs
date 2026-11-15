@@ -22,11 +22,9 @@ namespace HarborLearning
         private readonly List<Vector3>[] wakePoints = { new(), new() };
         private readonly Transform contact;
         private readonly List<Transform> buoyFloats = new();
-        private readonly Mission mission;
 
         public HarborStage(Transform parent, Course course)
         {
-            mission = course.Mission;
             Root = new GameObject("Training basin");
             Root.transform.SetParent(parent, false);
             ink = new Material(Resources.Load<Shader>("HarborInk")) { name = "Water marks and route ink" };
@@ -214,13 +212,14 @@ namespace HarborLearning
             foreach (Buoy definition in course.Buoys)
                 BuildBuoy(tank, definition);
 
-            if (mission == Mission.Dock)
+            if (course.RequiresDocking)
             {
                 var deck = Material("Berth decking", new Color(.54f, .46f, .30f), 0, .18f);
                 var bumper = Material("Berth fender", new Color(.14f, .19f, .20f), 0, .28f);
-                foreach (float x in new[] { -3.8f, 3.8f })
+                foreach (float x in new[] { -Course.DockX, Course.DockX })
                 {
-                    Box(tank, "Floating dock", new Vector3(x, .28f, 33.3f), new Vector3(1.37f, .54f, 9.3f), bumper);
+                    Box(tank, "Floating dock", new Vector3(x, .28f, Course.DockZ),
+                        new Vector3(2 * Course.DockHalfWidth, .54f, 2 * Course.DockHalfLength), bumper);
                     for (int i = 0; i < 18; i++)
                         Box(tank, "Dock plank", new Vector3(x, .585f, 29 + i * .50f), new Vector3(1.32f, .09f, .45f), deck);
                 }

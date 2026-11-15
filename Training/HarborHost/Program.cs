@@ -10,7 +10,7 @@ if (args.Length == 2 && args[0] == "--demo")
 if (args.Length != 2 || !Enum.TryParse(args[0], true, out Mission mission) ||
     !Enum.IsDefined(mission) || !int.TryParse(args[1], out int count) || count < 1 || count > 256)
 {
-    Console.Error.WriteLine("Usage: HarborHost <gate|current|slalom|dock> <environment count>");
+    Console.Error.WriteLine("Usage: HarborHost <gate|current|slalom|dock|harbor> <environment count>");
     Environment.ExitCode = 2;
     return;
 }
@@ -94,12 +94,12 @@ while (Console.ReadLine() is { } line)
 
 internal sealed record Command(string Op, int[]? Seeds, float[][]? Actions, int[]? StartGates,
                                bool RecordResets, int PostPassTicks);
-internal sealed record Frame(int Tick, float X, float Z, float Yaw, float Speed);
+internal sealed record Frame(int Tick, float X, float Z, float Yaw, float Speed, int GateIndex);
 internal sealed record ResetFrame(Frame Pose, float CurrentX, float CurrentZ);
 internal sealed record Attempt(int Id, int Seed, string Phase, int Outcome, float CurrentX, float CurrentZ, Frame[] Frames);
 internal sealed record ReplaySet(string Mission, string Source, Attempt[] Attempts);
 
 internal static class Recording
 {
-    public static Frame Pose(HarborEnvironment env) => new(env.Tick, env.X, env.Z, env.Yaw, env.GroundSpeed);
+    public static Frame Pose(HarborEnvironment env) => new(env.Tick, env.X, env.Z, env.Yaw, env.GroundSpeed, env.GateIndex);
 }

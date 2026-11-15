@@ -165,6 +165,7 @@ namespace HarborLearning
             if (Input.GetKeyDown(KeyCode.Alpha2)) LoadMission(Mission.Current);
             if (Input.GetKeyDown(KeyCode.Alpha3)) LoadMission(Mission.Slalom);
             if (Input.GetKeyDown(KeyCode.Alpha4)) LoadMission(Mission.Dock);
+            if (Input.GetKeyDown(KeyCode.Alpha5)) LoadMission(Mission.Harbor);
             if (Input.GetKeyDown(KeyCode.Space)) TogglePause();
             if (Input.GetKeyDown(KeyCode.Tab)) CycleCamera();
             if (Input.GetKeyDown(KeyCode.R)) Restart();
@@ -323,7 +324,7 @@ namespace HarborLearning
 
         public static void SetOverview(Camera camera, Mission mission)
         {
-            bool full = mission == Mission.Slalom || mission == Mission.Dock;
+            bool full = mission is Mission.Slalom or Mission.Dock or Mission.Harbor;
             float center = full ? 17.6f : mission == Mission.Current ? 10.4f : 8.5f;
             camera.orthographic = true;
             camera.orthographicSize = full ? 22f : 14.1f;
@@ -342,7 +343,7 @@ namespace HarborLearning
 
         private string Reaction(Outcome result) => result switch
         {
-            Outcome.Passed => Mission == Mission.Dock ? "Easy… and we're docked." : "There it is. Clean pass!",
+            Outcome.Passed => Mission is Mission.Dock or Mission.Harbor ? "Easy… and we're docked." : "There it is. Clean pass!",
             Outcome.Collision => "Whoa! A little too close.",
             Outcome.MissedGate => "Come on, Beacon. You missed the gate.",
             Outcome.Timeout => "Any time now, Beacon.",

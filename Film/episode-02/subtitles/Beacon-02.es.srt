@@ -1,0 +1,151 @@
+1
+00:00:00,220 --> 00:00:02,802
+Beacon, frena.
+
+2
+00:00:07,238 --> 00:00:12,708
+Tres puertas de boyas. Un sitio para detenerse.
+
+3
+00:00:13,808 --> 00:00:19,358
+Pasa por todas las puertas en orden.
+
+4
+00:00:20,338 --> 00:00:25,708
+Termina dentro del recuadro, mirando al frente,
+a menos de 0,38 metros por segundo.
+
+5
+00:00:29,978 --> 00:00:35,358
+Un buen comienzo, si el puerto estuviera detrás.
+
+6
+00:00:36,678 --> 00:00:43,227
+La primera puerta está superada. La segunda perdona menos.
+
+7
+00:00:44,175 --> 00:00:49,375
+La marca roja señala dónde acabó el intento.
+
+8
+00:00:50,095 --> 00:00:56,818
+Queda un giro. Empieza un poco tarde.
+
+9
+00:00:57,678 --> 00:01:05,302
+Ya pasó todas las puertas. Si se desvía demasiado
+a un lado, tocará el muelle.
+
+10
+00:01:06,358 --> 00:01:11,858
+Desde la proa parece que el espacio casi alcanza.
+
+11
+00:01:12,858 --> 00:01:17,438
+Avanza más, pero no mantiene el centro.
+
+12
+00:01:20,508 --> 00:01:25,408
+El entrenamiento simula 24 barcos en paralelo.
+Cada uno prueba sus propios controles.
+
+13
+00:01:26,108 --> 00:01:30,808
+Cada línea es un intento terminado.
+Mostramos la duración acumulada a 400×.
+
+14
+00:01:34,458 --> 00:01:39,408
+Las trayectorias empiezan a llegar al otro lado.
+
+15
+00:01:48,558 --> 00:01:53,408
+Muchos intentos pasan las puertas.
+El barco todavía tiene que detenerse.
+
+16
+00:01:58,500 --> 00:02:02,550
+Ese se pasó del amarre y siguió de largo.
+
+17
+00:02:28,967 --> 00:02:33,267
+El recuadro casi le queda atrás.
+
+18
+00:02:36,533 --> 00:02:41,233
+Reservé las mismas 48 salidas para las pruebas.
+Esta es una antes de entrenar.
+
+19
+00:02:41,843 --> 00:02:46,133
+El acelerador apenas se mueve. La corriente hace el resto.
+
+20
+00:02:47,157 --> 00:02:52,217
+Misma salida. Misma corriente. Mira el primer giro.
+
+21
+00:02:53,917 --> 00:02:58,217
+Se iluminan las contribuciones más fuertes.
+El turquesa suma y el ámbar resta.
+
+22
+00:02:58,900 --> 00:03:02,200
+Nosotros vemos desde la proa.
+
+23
+00:03:02,400 --> 00:03:06,000
+Beacon recibe 13 números, entre ellos
+dónde está la siguiente puerta y a qué velocidad va.
+
+24
+00:03:06,830 --> 00:03:11,480
+Al pasar las puertas, el objetivo cambia al amarre.
+
+25
+00:03:14,370 --> 00:03:18,950
+Fíjate cómo mengua la estela al reducir la potencia.
+
+26
+00:03:21,180 --> 00:03:26,450
+En esta prueba, la corriente empuja a la izquierda.
+
+27
+00:03:28,680 --> 00:03:33,750
+Otra posición inicial. La corriente va al lado contrario.
+
+28
+00:03:36,780 --> 00:03:41,150
+Enderézate. Ahora deja que baje la velocidad.
+
+29
+00:03:42,420 --> 00:03:48,200
+Dos salidas, dos rutas distintas hacia el mismo amarre.
+
+30
+00:03:50,000 --> 00:03:55,070
+La última puerta aún se pasa rápido.
+Esa estrategia deja de servir al atracar.
+
+31
+00:03:55,890 --> 00:04:01,450
+Reduce la potencia a tiempo para alinearte
+antes de que la proa llegue al recuadro.
+
+32
+00:04:02,770 --> 00:04:08,170
+La posición, el rumbo y la velocidad deben mantenerse
+dentro de los límites durante medio segundo.
+
+33
+00:04:34,683 --> 00:04:38,883
+Con el modelo final, las 48 salidas acaban en un atraque limpio.
+
+34
+00:04:40,833 --> 00:04:45,133
+El primer atraque llegó en el intento 604.
+Conseguirlo de forma fiable llevó algo más.
+
+35
+00:04:48,033 --> 00:04:52,283
+Bien aparcado, Beacon.

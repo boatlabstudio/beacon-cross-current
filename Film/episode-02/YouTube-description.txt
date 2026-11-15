@@ -1,0 +1,28 @@
+Beacon has to clear three buoy gates against the current, then stop inside a narrow berth. Clearing the gates is the easy part.
+
+GitHub code and replays → Click Boat Lab below the video, then the GitHub link under the channel name.
+https://github.com/boatlabstudio/beacon-cross-current#motion-trials-02--harbor-approach
+
+Beacon's first clean docking came on training attempt 604. The final PPO checkpoint docked successfully on all 48 fixed test starts. The end of the video shows one full test in real time. The bow camera is for viewers. The model steers using 13 numeric observations from the Unity simulator.
+
+00:00 Three gates. One berth.
+00:26 Learning the gates
+01:26 603 failed attempts at 400×
+01:58 Attempt 604: the first docking
+02:36 Inside the policy
+03:21 The cross-current changes sides
+03:50 Learning to slow down
+04:09 The full final run
+04:29 48 fixed starts
+04:54 Code and replay data
+
+Episode 01: https://youtu.be/WulTr7Q5R2g
+Partnerships: boatlabstudio@gmail.com
+
+Music
+‘Special Ops’ by Scott Buckley – CC BY 4.0. https://www.scottbuckley.com.au/library/special-ops/
+‘Tomorrow’ by Scott Buckley – CC BY 4.0. https://www.scottbuckley.com.au/library/tomorrow/
+License: https://creativecommons.org/licenses/by/4.0/
+The tracks were cut and mixed to picture. The training montage uses a tempo ramp. Water, motor and contact effects were synthesized for this episode.
+
+#ReinforcementLearning #AutonomousBoat #UnityMLAgents

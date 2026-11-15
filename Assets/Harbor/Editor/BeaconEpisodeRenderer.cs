@@ -15,17 +15,19 @@ namespace HarborLearning
         private sealed class Film
         {
             public int width, height, fps;
+            public string mission;
             public Shot[] shots;
         }
 
         [Serializable]
         private sealed class Shot
         {
-            public string name, camera;
-            public float length, offset, rate, angle, sweep;
+            public string name, camera, display;
+            public float length, offset, rate, angle, sweep, montageOffset;
             public bool track, compare, hideBoat;
             public HarborAttempt attempt, alternative;
             public HarborAttempt[] montage;
+            public HarborFilmSet.Decision[] decisions;
         }
 
         public static void Capture()
@@ -34,6 +36,7 @@ namespace HarborLearning
             string ffmpeg = Environment.GetEnvironmentVariable("BEACON_FFMPEG") ?? "ffmpeg";
             bool stills = Environment.GetEnvironmentVariable("BEACON_STILLS") == "1";
             Film film = JsonUtility.FromJson<Film>(File.ReadAllText(Path.Combine(directory, "shots.json")));
+            Mission mission = string.IsNullOrEmpty(film.mission) ? Mission.Current : Enum.Parse<Mission>(film.mission, true);
             EditorSceneManager.OpenScene("Assets/Harbor/Scenes/HarborPilot.unity");
             HarborDirector pilot = Object.FindFirstObjectByType<HarborDirector>();
             pilot.editorPreview.SetActive(false);
@@ -41,8 +44,9 @@ namespace HarborLearning
             camera.enabled = false;
             camera.allowHDR = false;
             QualitySettings.shadowDistance = 70;
-            var stage = new HarborStage(null, new Course(Mission.Current));
-            var target = new RenderTexture(film.width, film.height, 24) { antiAliasing = 2 };
+            var stage = new HarborStage(null, new Course(mission));
+            var harbor = mission == Mission.Harbor ? new HarborFilmSet(stage) : null;
+            var target = new RenderTexture(film.width, film.height, 24) { antiAliasing = harbor != null ? 4 : 2 };
             var image = new Texture2D(film.width, film.height, TextureFormat.RGB24, false);
             var pixels = new byte[film.width * film.height * 3];
             camera.targetTexture = target;
@@ -68,7 +72,7 @@ namespace HarborLearning
                             {
                                 HarborAttempt attempt = shot.montage[montageIndex];
                                 float end = montageEnd + Duration(attempt);
-                                if (local * 400 < end)
+                                if ((shot.montageOffset + local) * 400 < end)
                                     break;
                                 stage.DrawAttempt(attempt.frames, (Outcome)attempt.outcome);
                                 montageEnd = end;
@@ -77,7 +81,7 @@ namespace HarborLearning
                         }
                         if (stills && frame != frameCount / 2)
                             continue;
-                        SetFrame(stage, camera, shot, local, time + local);
+                        SetFrame(stage, camera, shot, local, time + local, harbor, montageIndex);
                         camera.Render();
                         RenderTexture.active = target;
                         image.ReadPixels(new Rect(0, 0, target.width, target.height), 0, 0, false);
@@ -105,6 +109,7 @@ namespace HarborLearning
                 if (encoder != null && !encoder.HasExited)
                     encoder.Kill();
                 Shader.SetGlobalFloat("_HarborFilmTime", 0);
+                Shader.SetGlobalFloat("_TrialMap", 0);
                 camera.targetTexture = null;
                 RenderTexture.active = previous;
                 Object.DestroyImmediate(image);
@@ -166,13 +171,20 @@ namespace HarborLearning
             return HarborFrame.Between(frames[lower], frames[upper], tick);
         }
 
-        private static void SetFrame(HarborStage stage, Camera camera, Shot shot, float local, float time)
+        private static void SetFrame(HarborStage stage, Camera camera, Shot shot, float local, float time,
+            HarborFilmSet harbor, int montageIndex)
         {
             float clock = shot.offset + local * shot.rate;
             HarborFrame frame = Sample(shot.attempt, clock);
             stage.SetPose(frame.x, frame.z, frame.yaw, frame.speed, time,
-                shot.rate > 0 && clock <= Duration(shot.attempt) && !shot.hideBoat);
+                harbor == null && shot.rate > 0 && clock <= Duration(shot.attempt) && !shot.hideBoat);
             Shader.SetGlobalFloat("_HarborFilmTime", time + 1);
+            if (harbor != null)
+            {
+                harbor.Draw(camera, shot.camera, shot.display, shot.attempt, frame, clock, time,
+                    local / shot.length, shot.angle, shot.sweep, shot.decisions, montageIndex, shot.hideBoat);
+                return;
+            }
             float fraction = local / shot.length;
             float angle = shot.angle + fraction * shot.sweep;
             Vector3 boat = new Vector3(frame.x, .30f, frame.z);

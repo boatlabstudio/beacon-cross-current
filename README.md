@@ -1,6 +1,44 @@
-# Beacon Cross-Current Trial
+# Boat Lab · Motion Trials
 
-[Boat Lab](https://www.youtube.com/@BoatLabStudio) · Motion Trials, Episode 01
+[Boat Lab](https://www.youtube.com/@BoatLabStudio) · Unity simulator, PPO trainer, and recorded trials
+
+## Motion Trials 02 — Harbor Approach
+
+[Watch Episode 02 on YouTube](https://youtu.be/ZNsJxmtM1Xk).
+
+Beacon must pass three offset buoy gates in order, then slow down inside the berth. Docking holds the vessel within the berth, within 0.28 radians of its target heading, and below 0.38 m/s over ground for ten physics ticks (0.50 seconds). The simulator also checks the basin, buoys, and two dock bodies for contact.
+
+![Beacon approaching the berth between the green and red buoys](Film/episode-02/media/harbor-finish.gif)
+
+| Harbor milestone | Completed training attempts | Fixed tests passed |
+| --- | ---: | ---: |
+| Initial policy | 0 | 0 / 48 |
+| First whole-course docking | 604 | — |
+| First intermediate checkpoint | 1,317 | 44 / 48 |
+| Middle checkpoint | 2,962 | 44 / 48 |
+| Final checkpoint | 6,493 | 48 / 48 |
+
+The first docking took **25.55 seconds** of simulation time. The filmed final test took **16.30 seconds**. The 603 paths in the training sequence are the recorded attempts before the first dock. The scoreboard counts completed episodes across 24 simulators. The montage divides their summed durations by 400.
+
+![The framed Unity monitor shows the recorded actor commands and signed path contributions](Film/episode-02/media/policy-monitor.jpg)
+
+The two monitor scenes replay the same fixed start at the initial and final checkpoints. Teal paths add to the raw command and amber paths subtract. Each scene displays the three strongest input-to-hidden-to-output contributions per command, relative to zero input. Applied throttle and rudder include the remaining paths, biases, and clipping. [`harbor_trial.py`](Film/harbor_trial.py) verifies the recalculated actor outputs against each recorded action before the render.
+
+### Reproduce the harbor trial
+
+Open `Assets/Harbor/Scenes/HarborPilot.unity` in Unity 6.3, press **Play**, and choose **5 Harbor approach**. This loads the [recorded fixed-start replays](Assets/Harbor/Resources/Replays/harbor.json). The [film data](Film/episode-02/) includes the training trace, checkpoints, captions, and music credits.
+
+```sh
+dotnet build Training/HarborHost -c Release
+python -m pip install -r Training/requirements.txt
+python Training/train.py --mission harbor --steps 600000 --seed 19 --trace-attempts 720 --output Training/runs --replay Training/runs/harbor-replay.json --trace Training/runs/harbor-trace.json
+```
+
+Run [`Film/render-harbor.ps1`](Film/render-harbor.ps1) with the path to your Unity 6.3 editor and `-MusicDirectory` pointing to the two credited MP3s. Use the original filenames `special-ops.mp3` and `tomorrow.mp3`. The music comes from Scott Buckley's CC BY 4.0 library. The files and links are listed in the [video credits](Film/episode-02/YouTube-description.txt).
+
+## Motion Trials 01 — Cross-Current
+
+[Watch Episode 01 on YouTube](https://youtu.be/WulTr7Q5R2g).
 
 Beacon has to steer through a six-metre buoy gate while a cross-current pushes the boat sideways. This repository contains the Unity simulation, the NumPy PPO trainer, and the recorded attempts behind **Can an AI Boat Beat the Current?**
 
@@ -47,11 +85,11 @@ The card ranks paths by the magnitude of their contribution to the raw rudder ou
 
 ## Run the pilot
 
-Open this folder in Unity **6.3**. Open `Assets/Harbor/Scenes/HarborPilot.unity` and press **Play**. The scene starts with the cross-current trial. All four missions include recorded PPO replays. You can watch them without Python.
+Open this folder in Unity **6.3**. Open `Assets/Harbor/Scenes/HarborPilot.unity` and press **Play**. The scene starts with the cross-current trial. All five missions include recorded PPO replays. You can watch them without Python.
 
 | Control | Action |
 | --- | --- |
-| 1–4 | Gate, cross-current, slalom, or berth |
+| 1–5 | Gate, cross-current, slalom, berth, or harbor approach |
 | Space / N / R | Play or pause, next attempt, restart |
 | Tab / F | Cycle auto, overview, chase, and onboard cameras, or change montage speed |
 | T / H | Show routes, switch film mode |
