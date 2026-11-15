@@ -8,9 +8,9 @@
 
 ![The episode thumbnail shows Beacon at the berth with parallel training boats behind it](Film/episode-02/media/harbor-cover.jpg)
 
-The cover brings the 24 boats into one composition. Each training rollout runs in its own simulator instance.
+The cover puts 24 training copies behind Beacon. Each training rollout runs in its own simulator instance.
 
-Beacon must pass three offset buoy gates in order, then slow down inside the berth. Docking holds the vessel within the berth, within 0.28 radians of its target heading, and below 0.38 m/s over ground for ten physics ticks (0.50 seconds). The simulator also checks the basin, buoys, and two dock bodies for contact.
+Beacon must pass three offset buoy gates in order, then slow down inside the berth. For ten physics ticks (0.50 seconds), the boat must remain in the berth, within 0.28 radians of the target heading, below 0.38 m/s over ground, and below 0.25 rad/s of yaw rate in either direction. The simulator checks the basin, buoys, and two dock bodies for contact.
 
 ![Beacon approaching the berth between the green and red buoys](Film/episode-02/media/harbor-finish.gif)
 
