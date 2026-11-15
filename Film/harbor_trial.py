@@ -268,7 +268,8 @@ def prepare(output, data, replay_file, width, height, stills):
                      decisions=decisions(other["id"]))
         dock_cover = dict(name="cover-dock", camera="cover-dock", attempt=first, length=1, offset=20.40, rate=0)
         map_cover = dict(name="cover-map", camera="cover-map", attempt=first, length=1, offset=19.2, rate=0)
-        shots = [cover, dock_cover, map_cover, *[shot for shot in edit.shots if shot["name"] in
+        fleet_cover = dict(name="cover-fleet", camera="cover-fleet", attempt=first, length=1, offset=20.40, rate=0)
+        shots = [cover, dock_cover, map_cover, fleet_cover, *[shot for shot in edit.shots if shot["name"] in
                  {"01-cold-open", "02-beacon", "03-course", "04-gate-map", "06-attempt-one-board",
                   "15-training-routes-3", "20-policy-before", "22-policy-after", "30-final-replay-3", "34-boat-lab"}]]
         write_json(output / "shots.json", dict(width=width, height=height, fps=FPS, mission="harbor", shots=shots))

@@ -51,6 +51,7 @@ namespace HarborLearning
         private readonly LineRenderer[] lines = new LineRenderer[12];
         private readonly Material lineInk = new(Resources.Load<Shader>("HarborInk"));
         private Decision displayed;
+        private Transform coverFleet;
 
         public HarborFilmSet(HarborStage stage)
         {
@@ -138,7 +139,8 @@ namespace HarborLearning
             countLabel.color = mapCount.color = outcome == Outcome.Passed ? Mint : Linen;
             for (int i = 0; i < gateNumbers.Length; i++)
                 gateNumbers[i].color = i < frame.gateIndex && display != "montage" ? Mint : Linen;
-            bool cover = shot is "cover-dock" or "cover-map";
+            bool fleetCover = shot == "cover-fleet";
+            bool cover = shot is "cover-dock" or "cover-map" || fleetCover;
             berth.startColor = berth.endColor = outcome == Outcome.Passed || cover ? Mint : new Color(.77f, .90f, .86f, .77f);
             berth.startWidth = berth.endWidth = cover ? .13f : .086f;
 
@@ -160,6 +162,12 @@ namespace HarborLearning
             Shader.SetGlobalFloat("_TrialMap", map ? .88f : 0);
             Shader.SetGlobalVector("_DockBoat", new Vector4(frame.x, frame.z, frame.yaw, hideBoat || done ? 0 : frame.speed));
             SetCamera(camera, shot, frame, fraction, angle + fraction * sweep);
+            if (fleetCover)
+            {
+                coverFleet ??= BuildCoverFleet(frame.z);
+                coverFleet.gameObject.SetActive(true);
+            }
+            else if (coverFleet != null) coverFleet.gameObject.SetActive(false);
             Vector3 viewpoint = camera.transform.position;
             foreach (TextMesh label in lettering)
                 label.GetComponent<MeshRenderer>().enabled = Vector3.Dot(viewpoint - label.transform.position, label.transform.forward) < 0;
@@ -192,6 +200,10 @@ namespace HarborLearning
                 case "cover-map":
                     Aim(camera, position + new Vector3(5.4f, 5.85f, 6.5f),
                         position + new Vector3(-.45f, .12f, 2.06f), 38);
+                    break;
+                case "cover-fleet":
+                    Aim(camera, position + orbit * new Vector3(-2.75f, 5.35f, 5.78f),
+                        position + new Vector3(.55f, 0, .55f), 45);
                     break;
                 case "waterline":
                     Aim(camera, position + orbit * new Vector3(-4.5f, .78f, -3.9f), position + new Vector3(.05f, .19f, 1.1f), 43);
@@ -347,6 +359,39 @@ namespace HarborLearning
                 brows[i] = Solid(stage.Boat, "Brow", PrimitiveType.Sphere, new Vector3(x, .589f + (i == 0 ? .007f : 0), .600f),
                     new Vector3(.204f, .035f, .034f), brow);
             }
+        }
+
+        private Transform BuildCoverFleet(float approachZ)
+        {
+            // The cover arranges independent training copies together to depict parallel practice.
+            Transform fleet = Group(stage.Root.transform, "Parallel training boats (cover only)", Vector3.zero);
+            var ochre = Paint(new Color(.88f, .54f, .18f), .38f);
+            var light = Paint(new Color(.92f, .72f, .32f), .36f);
+            float[][] rows =
+            {
+                new[] { -1.53f, .0f, 1.49f },
+                new[] { -4.1f, -2.65f, -1.05f, .41f, 1.93f, 3.40f, 4.91f },
+                new[] { -4.60f, -3.06f, -1.59f, -.10f, 1.43f, 2.96f, 4.48f },
+                new[] { -4.10f, -2.49f, -.98f, .54f, 2.01f, 3.55f, 5.11f }
+            };
+            for (int row = 0; row < rows.Length; row++)
+            for (int i = 0; i < rows[row].Length; i++)
+            {
+                float variation = Mathf.Sin(i * 3.6f + row * 2.5f);
+                Transform boat = Object.Instantiate(stage.Boat, fleet);
+                boat.name = "Parallel practice boat";
+                boat.localPosition = new Vector3(rows[row][i] + .12f * variation, .17f,
+                    approachZ - 2.75f - row * 1.68f - .28f * variation);
+                boat.localRotation = Quaternion.Euler(0, 7 + 18 * variation, 0);
+                boat.localScale = Vector3.one * (.66f + .035f * variation);
+                foreach (Renderer renderer in boat.GetComponentsInChildren<Renderer>())
+                {
+                    if (renderer.GetComponent<TextMesh>()) renderer.enabled = false;
+                    else if (renderer.sharedMaterial.name == "Hull gold")
+                        renderer.sharedMaterial = (i + row) % 5 == 0 ? light : ochre;
+                }
+            }
+            return fleet;
         }
 
         private static void BuildDock(Transform world)
